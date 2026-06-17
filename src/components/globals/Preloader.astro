@@ -1,0 +1,358 @@
+---
+// Preloader component dengan animasi yang mengikuti cursor
+---
+
+<div id="preloader" class="fixed inset-0 z-[9999] bg-brand-primary flex items-center justify-center transition-opacity duration-500">
+  <!-- Background dengan pattern -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-primary via-brand-primary-darker to-brand-primary opacity-90"></div>
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-0 left-0 w-full h-full" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,0.05) 35px, rgba(255,255,255,0.05) 70px);"></div>
+    </div>
+  </div>
+
+  <!-- Content Container -->
+  <div class="relative z-10 flex flex-col items-center justify-center gap-8 text-center">
+    <!-- Logo/Text Sawiyan -->
+    <div class="relative">
+      <h1 class="text-4xl md:text-6xl font-bold font-sora tracking-wider relative z-10">
+        <span class="bg-gradient-to-r from-brand-accent-gold via-brand-accent-orange to-brand-secondary bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_3s_ease_infinite]"> SAWIYAN </span>
+      </h1>
+      <!-- Glow effect -->
+      <div class="absolute inset-0 bg-gradient-to-r from-brand-accent-gold/30 via-brand-accent-orange/30 to-brand-secondary/30 blur-2xl opacity-50 animate-pulse"></div>
+    </div>
+
+    <!-- Progress Bar (Optional) -->
+    <div class="w-64 md:w-80 h-1 bg-white/20 rounded-full overflow-hidden">
+      <div id="progress-bar" class="h-full bg-gradient-to-r from-brand-accent-gold via-brand-accent-orange to-brand-secondary rounded-full transition-all duration-300" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <!-- Closing animation overlay -->
+  <div id="preloader-closing" class="absolute bg-brand-primary rounded-full opacity-0 pointer-events-none" style="left: 50%; top: 50%; width: 0; height: 0; transform: translate(-50%, -50%) scale(0);"></div>
+
+  <!-- Cursor Effect -->
+  <div id="cursor-effect" class="absolute pointer-events-none opacity-0 z-[10000]" style="left: 50%; top: 50%; transform: translate(-50%, -50%);">
+    <!-- Ripple effect circles -->
+    <div id="cursor-ripple-1" class="absolute rounded-full border-4 border-brand-accent-gold opacity-0 w-20 h-20" style="left: 50%; top: 50%; transform: translate(-50%, -50%);"></div>
+    <div id="cursor-ripple-2" class="absolute rounded-full border-4 border-brand-accent-orange opacity-0 w-20 h-20" style="left: 50%; top: 50%; transform: translate(-50%, -50%);"></div>
+    <div id="cursor-ripple-3" class="absolute rounded-full border-4 border-brand-secondary opacity-0 w-20 h-20" style="left: 50%; top: 50%; transform: translate(-50%, -50%);"></div>
+    <!-- Center glow -->
+    <div id="cursor-glow" class="absolute rounded-full bg-gradient-to-r from-brand-accent-gold via-brand-accent-orange to-brand-secondary opacity-0 blur-xl w-20 h-20" style="left: 50%; top: 50%; transform: translate(-50%, -50%);"></div>
+  </div>
+</div>
+
+<style>
+  @keyframes gradient {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+</style>
+
+<script>
+  // Track cursor position
+  let cursorX = window.innerWidth / 2;
+  let cursorY = window.innerHeight / 2;
+  let hasCursorPosition = false;
+
+  // Track mouse movement - update immediately on any mouse activity
+  const trackMouse = (e: MouseEvent) => {
+    cursorX = e.clientX;
+    cursorY = e.clientY;
+    hasCursorPosition = true;
+  };
+
+  // Track mouse position on any mouse event (move, enter, over)
+  const trackMouseEnter = (e: MouseEvent) => {
+    cursorX = e.clientX;
+    cursorY = e.clientY;
+    hasCursorPosition = true;
+  };
+
+  const trackMouseOver = (e: MouseEvent) => {
+    cursorX = e.clientX;
+    cursorY = e.clientY;
+    hasCursorPosition = true;
+  };
+
+  // Add multiple event listeners to catch cursor position
+  document.addEventListener("mousemove", trackMouse, { passive: true });
+  document.addEventListener("mouseenter", trackMouseEnter, { passive: true });
+  document.addEventListener("mouseover", trackMouseOver, { passive: true });
+
+  // Initialize with center position
+  cursorX = window.innerWidth / 2;
+  cursorY = window.innerHeight / 2;
+
+  // Also track touch for mobile
+  const updateTouchPosition = (e: TouchEvent) => {
+    if (e.touches.length > 0) {
+      cursorX = e.touches[0].clientX;
+      cursorY = e.touches[0].clientY;
+      hasCursorPosition = true;
+    }
+  };
+  document.addEventListener("touchstart", updateTouchPosition);
+  document.addEventListener("touchmove", updateTouchPosition);
+
+  // Wait for critical resources to load (optimized for faster loading)
+  const waitForImages = (): Promise<void> => {
+    return new Promise((resolve) => {
+      // Only wait for images that are above the fold or critical
+      const images = Array.from(document.querySelectorAll("img"));
+      const criticalImages = images.filter((img) => {
+        // Check if image is in viewport or has loading="eager"
+        const rect = img.getBoundingClientRect();
+        const isAboveFold = rect.top < window.innerHeight * 2;
+        const isEager = img.getAttribute("loading") === "eager" || !img.hasAttribute("loading");
+        return isAboveFold || isEager;
+      });
+
+      const imagePromises = criticalImages.map((img) => {
+        if (img.complete) return Promise.resolve();
+        return new Promise<void>((imgResolve) => {
+          // Timeout after 1 second to prevent waiting too long
+          const timeout = setTimeout(() => imgResolve(), 1000);
+          img.onload = () => {
+            clearTimeout(timeout);
+            imgResolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            imgResolve(); // Resolve even on error
+          };
+        });
+      });
+
+      // Set minimum display time for smooth UX (reduced from 300ms to 100ms)
+      const minDisplayTime = 100;
+
+      if (document.readyState === "complete") {
+        Promise.all(imagePromises).then(() => {
+          setTimeout(() => resolve(), minDisplayTime);
+        });
+      } else {
+        // Wait for DOMContentLoaded instead of full load for faster response
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", () => {
+            Promise.all(imagePromises).then(() => {
+              setTimeout(() => resolve(), minDisplayTime);
+            });
+          });
+        } else {
+          Promise.all(imagePromises).then(() => {
+            setTimeout(() => resolve(), minDisplayTime);
+          });
+        }
+      }
+    });
+  };
+
+  // Simulate progress bar (faster progression)
+  const simulateProgress = () => {
+    const progressBar = document.getElementById("progress-bar");
+    if (!progressBar) return;
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 20 + 10; // Faster progression (10-30 per interval)
+      if (progress > 95) progress = 95; // Don't complete until everything is loaded
+      progressBar.style.width = `${progress}%`;
+    }, 80); // Faster interval (80ms instead of 100ms)
+
+    return interval;
+  };
+
+  // Animate closing with cursor position and cursor effect
+  const animateClosing = () => {
+    const preloader = document.getElementById("preloader");
+    const closingOverlay = document.getElementById("preloader-closing");
+    const cursorEffect = document.getElementById("cursor-effect");
+    const cursorRipple1 = document.getElementById("cursor-ripple-1");
+    const cursorRipple2 = document.getElementById("cursor-ripple-2");
+    const cursorRipple3 = document.getElementById("cursor-ripple-3");
+    const cursorGlow = document.getElementById("cursor-glow");
+
+    if (!preloader || !closingOverlay || !cursorEffect) return;
+
+    // Get the latest cursor position at the moment of closing
+    let targetX = cursorX;
+    let targetY = cursorY;
+
+    const isInitialCenter = targetX === window.innerWidth / 2 && targetY === window.innerHeight / 2;
+
+    // If we have a valid cursor position that's not the initial center, use it
+    if (hasCursorPosition && !isNaN(targetX) && !isNaN(targetY) && !isInitialCenter) {
+      targetX = cursorX;
+      targetY = cursorY;
+    } else {
+      // Fallback to center if no valid cursor position
+      targetX = window.innerWidth / 2;
+      targetY = window.innerHeight / 2;
+    }
+
+    // Ensure coordinates are within viewport bounds
+    targetX = Math.max(0, Math.min(targetX, window.innerWidth));
+    targetY = Math.max(0, Math.min(targetY, window.innerHeight));
+
+    // Position cursor effect at cursor location
+    cursorEffect.style.left = `${targetX}px`;
+    cursorEffect.style.top = `${targetY}px`;
+    cursorEffect.style.transform = "translate(-50%, -50%)";
+
+    // Calculate distance from all corners to determine max radius needed
+    const distances = [
+      Math.sqrt(Math.pow(targetX, 2) + Math.pow(targetY, 2)), // Top-left
+      Math.sqrt(Math.pow(window.innerWidth - targetX, 2) + Math.pow(targetY, 2)), // Top-right
+      Math.sqrt(Math.pow(targetX, 2) + Math.pow(window.innerHeight - targetY, 2)), // Bottom-left
+      Math.sqrt(Math.pow(window.innerWidth - targetX, 2) + Math.pow(window.innerHeight - targetY, 2)), // Bottom-right
+    ];
+    const maxRadius = Math.max(...distances) * 1.5; // Add extra for smooth coverage
+    const diameter = maxRadius * 2;
+
+    // Set initial position for closing overlay
+    closingOverlay.style.left = `${targetX}px`;
+    closingOverlay.style.top = `${targetY}px`;
+    closingOverlay.style.transform = "translate(-50%, -50%) scale(0)";
+    closingOverlay.style.width = `${diameter}px`;
+    closingOverlay.style.height = `${diameter}px`;
+
+    // Trigger reflow
+    closingOverlay.offsetHeight;
+
+    // Start cursor effect animation
+    setTimeout(() => {
+      cursorEffect.style.opacity = "1";
+      cursorEffect.style.transition = "opacity 0.3s ease-out";
+
+      // Animate ripple effects
+      if (cursorRipple1 && cursorRipple2 && cursorRipple3) {
+        // Ripple 1 - immediate
+        cursorRipple1.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+        cursorRipple1.style.opacity = "1";
+        cursorRipple1.style.transform = "translate(-50%, -50%) scale(4)";
+        cursorRipple1.style.width = "80px";
+        cursorRipple1.style.height = "80px";
+
+        // Ripple 2 (delayed)
+        setTimeout(() => {
+          cursorRipple2.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+          cursorRipple2.style.opacity = "0.7";
+          cursorRipple2.style.transform = "translate(-50%, -50%) scale(5)";
+          cursorRipple2.style.width = "80px";
+          cursorRipple2.style.height = "80px";
+        }, 100);
+
+        // Ripple 3 (more delayed)
+        setTimeout(() => {
+          cursorRipple3.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+          cursorRipple3.style.opacity = "0.5";
+          cursorRipple3.style.transform = "translate(-50%, -50%) scale(6)";
+          cursorRipple3.style.width = "80px";
+          cursorRipple3.style.height = "80px";
+        }, 200);
+      }
+
+      // Animate glow effect
+      if (cursorGlow) {
+        cursorGlow.style.transition = "opacity 0.4s ease-out, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+        cursorGlow.style.opacity = "0.8";
+        cursorGlow.style.transform = "translate(-50%, -50%) scale(3)";
+      }
+    }, 10);
+
+    // Start closing animation
+    setTimeout(() => {
+      closingOverlay.style.opacity = "1";
+      closingOverlay.style.transform = "translate(-50%, -50%) scale(1)";
+      closingOverlay.style.transition = "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease-out";
+    }, 10);
+
+    // Fade out preloader content
+    setTimeout(() => {
+      preloader.style.opacity = "0";
+      preloader.style.transition = "opacity 0.3s ease-out";
+    }, 50);
+
+    // Fade out cursor effect
+    setTimeout(() => {
+      if (cursorEffect) {
+        cursorEffect.style.opacity = "0";
+        cursorEffect.style.transition = "opacity 0.3s ease-out";
+      }
+    }, 400);
+
+    // Remove preloader after animation
+    setTimeout(() => {
+      preloader.style.display = "none";
+      document.body.style.overflow = "";
+      // Clean up event listeners
+      document.removeEventListener("mousemove", trackMouse);
+      document.removeEventListener("mouseenter", trackMouseEnter);
+      document.removeEventListener("mouseover", trackMouseOver);
+      document.removeEventListener("touchstart", updateTouchPosition);
+      document.removeEventListener("touchmove", updateTouchPosition);
+    }, 700);
+  };
+
+  // Initialize preloader
+  const initPreloader = async () => {
+    const preloader = document.getElementById("preloader");
+    if (!preloader) return;
+
+    // Prevent body scroll
+    document.body.style.overflow = "hidden";
+
+    // Start progress bar simulation
+    const progressInterval = simulateProgress();
+
+    // Set maximum wait time (2 seconds) to prevent preloader from showing too long
+    const maxWaitTime = setTimeout(() => {
+      // Force close if taking too long
+      const progressBar = document.getElementById("progress-bar");
+      if (progressBar) {
+        progressBar.style.width = "100%";
+      }
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
+      setTimeout(() => {
+        animateClosing();
+      }, 100);
+    }, 2000);
+
+    // Wait for critical resources to load
+    await waitForImages();
+
+    // Clear max wait timeout since we loaded successfully
+    clearTimeout(maxWaitTime);
+
+    // Complete progress bar
+    const progressBar = document.getElementById("progress-bar");
+    if (progressBar) {
+      progressBar.style.width = "100%";
+    }
+
+    // Clear progress interval
+    if (progressInterval) {
+      clearInterval(progressInterval);
+    }
+
+    // Wait a bit more for smooth transition (reduced from 200ms to 100ms)
+    setTimeout(() => {
+      animateClosing();
+    }, 100);
+  };
+
+  // Start preloader when DOM is ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPreloader);
+  } else {
+    initPreloader();
+  }
+</script>

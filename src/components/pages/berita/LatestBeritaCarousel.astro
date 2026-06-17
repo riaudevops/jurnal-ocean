@@ -1,0 +1,421 @@
+---
+interface BeritaItem {
+  slug: string;
+  category: string;
+  judul: string;
+  thumbnail: string;
+  excerpt: string;
+  date_created: string;
+  author: string;
+}
+
+const { latestBerita } = Astro.props;
+
+const formatDate = (dateStr: string) => {
+  return new Intl.DateTimeFormat("id-ID", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(dateStr));
+};
+---
+
+<section class="news-latest" aria-labelledby="news-latest-title">
+  <div class="news-latest-inner">
+    <!-- Section header -->
+    <header class="news-latest-head">
+      <div class="news-latest-head-left">
+        <div class="news-latest-eyebrow">
+          <span class="news-latest-eyebrow-rule"></span>
+          <span>Berita Terbaru</span>
+        </div>
+        <h2 id="news-latest-title" class="news-latest-title">
+          Update <em>terkini</em> dari yayasan.
+        </h2>
+      </div>
+      <div class="news-latest-nav">
+        <button class="embla__prev-latest news-latest-nav-btn" aria-label="Previous">
+          <svg xmlns="http://www.w3.org/2000/svg" class="news-latest-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="embla__next-latest news-latest-nav-btn" aria-label="Next">
+          <svg xmlns="http://www.w3.org/2000/svg" class="news-latest-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Carousel -->
+    <div class="embla-carousel-latest">
+      <div class="embla__viewport-latest">
+        <div class="embla__container-latest">
+          {
+            latestBerita.map((berita: BeritaItem, idx: number) => (
+              <article class="embla__slide-latest news-card">
+                <a href={`/berita/${berita.slug}`} class="news-card-link">
+                  <div class="news-card-image">
+                    <img src={berita.thumbnail} alt={berita.judul} class="news-card-img" loading="lazy" />
+                    <div class="news-card-num">{String(idx + 1).padStart(2, "0")}</div>
+                  </div>
+                  <div class="news-card-content">
+                    <div class="news-card-category">{berita.category}</div>
+                    <h3 class="news-card-title">{berita.judul}</h3>
+                    <p class="news-card-excerpt">{berita.excerpt}</p>
+                    <div class="news-card-footer">
+                      <div class="news-card-meta">
+                        {berita.author} · {formatDate(berita.date_created)}
+                      </div>
+                      <span class="news-card-cta">Baca →</span>
+                    </div>
+                  </div>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import EmblaCarousel from "embla-carousel";
+
+  const emblaRoot = document.querySelector(".embla-carousel-latest");
+
+  if (emblaRoot) {
+    const viewport = emblaRoot.querySelector<HTMLElement>(".embla__viewport-latest");
+    const prevBtn = emblaRoot.querySelector<HTMLButtonElement>(".embla__prev-latest");
+    const nextBtn = emblaRoot.querySelector<HTMLButtonElement>(".embla__next-latest");
+
+    if (viewport && prevBtn && nextBtn) {
+      const emblaApi = EmblaCarousel(viewport, {
+        loop: false,
+        align: "start",
+        dragFree: true,
+        slidesToScroll: 1,
+      });
+
+      const updateArrowButtons = () => {
+        if (!emblaApi) return;
+        const canScrollPrev = emblaApi.canScrollPrev();
+        const canScrollNext = emblaApi.canScrollNext();
+
+        prevBtn.disabled = !canScrollPrev;
+        nextBtn.disabled = !canScrollNext;
+
+        if (canScrollPrev) {
+          prevBtn.classList.remove("is-disabled");
+        } else {
+          prevBtn.classList.add("is-disabled");
+        }
+
+        if (canScrollNext) {
+          nextBtn.classList.remove("is-disabled");
+        } else {
+          nextBtn.classList.add("is-disabled");
+        }
+      };
+
+      prevBtn.addEventListener(
+        "click",
+        () => {
+          if (emblaApi.canScrollPrev()) {
+            emblaApi.scrollPrev();
+          }
+        },
+        false,
+      );
+
+      nextBtn.addEventListener(
+        "click",
+        () => {
+          if (emblaApi.canScrollNext()) {
+            emblaApi.scrollNext();
+          }
+        },
+        false,
+      );
+
+      emblaApi.on("select", updateArrowButtons);
+      emblaApi.on("reInit", updateArrowButtons);
+      emblaApi.on("resize", updateArrowButtons);
+
+      updateArrowButtons();
+    }
+  }
+</script>
+
+<style>
+  .news-latest {
+    background: var(--color-sand);
+    padding: 96px 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .news-latest-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* Section header */
+  .news-latest-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 32px;
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .news-latest-head-left {
+    max-width: 720px;
+  }
+
+  .news-latest-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+  }
+
+  .news-latest-eyebrow-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--color-primary);
+  }
+
+  .news-latest-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: clamp(36px, 4.5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .news-latest-title em {
+    font-style: italic;
+    color: var(--color-primary);
+  }
+
+  /* Nav buttons */
+  .news-latest-nav {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .news-latest-nav-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-primary);
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+    border-radius: 4px;
+  }
+
+  .news-latest-nav-btn:hover:not(:disabled) {
+    background: var(--color-primary);
+    color: var(--color-background);
+    border-color: var(--color-primary);
+  }
+
+  .news-latest-nav-btn:disabled,
+  .news-latest-nav-btn.is-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .news-latest-nav-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Carousel */
+  .embla-carousel-latest {
+    overflow: visible;
+  }
+
+  .embla__viewport-latest {
+    overflow: hidden;
+    cursor: grab;
+  }
+
+  .embla__viewport-latest:active {
+    cursor: grabbing;
+  }
+
+  .embla__container-latest {
+    display: flex;
+    gap: 24px;
+  }
+
+  .embla__slide-latest {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
+  @media (min-width: 768px) {
+    .embla__slide-latest {
+      flex: 0 0 calc((100% - 24px) / 2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .embla__slide-latest {
+      flex: 0 0 calc((100% - 48px) / 3);
+    }
+  }
+
+  /* News card (editorial style) */
+  .news-card {
+    background: var(--color-surface);
+    border-radius: 4px;
+    overflow: hidden;
+    transition:
+      transform 0.4s,
+      box-shadow 0.4s;
+    height: 100%;
+  }
+
+  .news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(42, 46, 37, 0.1);
+  }
+
+  .news-card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .news-card-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+
+  .news-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85);
+    transition: transform 0.6s;
+  }
+
+  .news-card:hover .news-card-img {
+    transform: scale(1.04);
+  }
+
+  .news-card-num {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--color-background);
+    color: var(--color-primary);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+  }
+
+  .news-card-content {
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .news-card-category {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 12px;
+  }
+
+  .news-card-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--color-text-primary);
+    margin: 0 0 12px 0;
+  }
+
+  .news-card:hover .news-card-title {
+    color: var(--color-primary);
+    transition: color 0.3s;
+  }
+
+  .news-card-excerpt {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0 0 20px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .news-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+  }
+
+  .news-card-meta {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+  }
+
+  .news-card-cta {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 960px) {
+    .news-latest {
+      padding: 64px 24px;
+    }
+
+    .news-latest-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+  }
+</style>

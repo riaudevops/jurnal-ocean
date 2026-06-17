@@ -1,0 +1,356 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { ArrowLeft, Calendar, Clock, User, MessageCircle, Send } from "lucide-astro";
+
+interface BeritaItem {
+  slug: string;
+  category: string;
+  judul: string;
+  thumbnail: string;
+  excerpt: string;
+  date_created: string;
+  author: string;
+}
+
+// Dummy data - dalam production ini akan diambil dari API atau CMS
+const allBeritaData: BeritaItem[] = [
+  {
+    slug: "program-beasiswa-2025",
+    category: "Pengumuman",
+    judul: "Program Beasiswa Yayasan Sawiyan 2025",
+    thumbnail: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&h=1080&fit=crop",
+    excerpt: "Yayasan Sawiyan membuka program beasiswa untuk siswa berprestasi dan keluarga kurang mampu.",
+    date_created: "2024-11-15T10:00:00",
+    author: "Admin Yayasan",
+  },
+  {
+    slug: "bantuan-kemanusiaan-2025",
+    category: "Berita",
+    judul: "Kegiatan Bantuan Kemanusiaan di Daerah Terdampak Bencana",
+    thumbnail: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&h=1080&fit=crop",
+    excerpt: "Yayasan Sawiyan menggelar program bantuan kemanusiaan untuk korban bencana alam.",
+    date_created: "2024-11-10T14:30:00",
+    author: "Tim Kemanusiaan",
+  },
+  {
+    slug: "kegiatan-keagamaan-2025",
+    category: "Kegiatan",
+    judul: "Kegiatan Rutin Kajian Keagamaan Bulanan",
+    thumbnail: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1920&h=1080&fit=crop",
+    excerpt: "Yayasan Sawiyan mengadakan kajian keagamaan rutin setiap bulan yang terbuka untuk umum.",
+    date_created: "2024-11-08T09:15:00",
+    author: "Divisi Keagamaan",
+  },
+  {
+    slug: "kampanye-lingkungan-2025",
+    category: "Kegiatan",
+    judul: "Kampanye Peduli Lingkungan: Aksi Bersih-Bersih",
+    thumbnail: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=1920&h=1080&fit=crop",
+    excerpt: "Yayasan Sawiyan menggelar aksi bersih-bersih lingkungan sebagai bentuk kepedulian terhadap kelestarian alam.",
+    date_created: "2024-11-05T16:45:00",
+    author: "Tim Lingkungan",
+  },
+  {
+    slug: "penyaluran-zakat-2025",
+    category: "Pengumuman",
+    judul: "Penyaluran Zakat Fitrah dan Zakat Mal Tahun 2025",
+    thumbnail: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=1920&h=1080&fit=crop",
+    excerpt: "Yayasan Sawiyan membuka penyaluran zakat fitrah dan zakat mal untuk disalurkan kepada mustahik yang berhak.",
+    date_created: "2024-11-01T11:20:00",
+    author: "Divisi Keagamaan",
+  },
+  {
+    slug: "pelatihan-keterampilan-2025",
+    category: "Berita",
+    judul: "Pelatihan Keterampilan untuk Pemberdayaan Masyarakat",
+    thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&h=1080&fit=crop",
+    excerpt: "Program pelatihan keterampilan bagi masyarakat untuk meningkatkan kemampuan dan peluang ekonomi.",
+    date_created: "2024-10-28T13:00:00",
+    author: "Divisi Program Sosial",
+  },
+];
+
+// Get slug from URL params
+const { slug } = Astro.params;
+
+// Find the berita item
+const beritaItem = allBeritaData.find((item) => item.slug === slug);
+
+// If berita not found, return 404
+if (!beritaItem) {
+  return Astro.redirect("/berita");
+}
+
+// Full content (dummy - dalam production ini akan dari CMS)
+const fullContent = `
+  <p class="mb-4">${beritaItem.excerpt}</p>
+  
+  <p class="mb-4">Yayasan Sawiyan dengan bangga mengumumkan program terbaru yang bertujuan untuk memberikan dampak positif bagi masyarakat. Program ini dirancang dengan cermat untuk memastikan manfaat yang maksimal bagi semua pihak yang terlibat.</p>
+  
+  <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Tujuan Program</h2>
+  <p class="mb-4">Program ini memiliki beberapa tujuan utama yang ingin dicapai, antara lain:</p>
+  <ul class="list-disc list-inside mb-4 space-y-2 text-gray-700">
+    <li>Memberikan bantuan yang tepat sasaran kepada mereka yang membutuhkan</li>
+    <li>Meningkatkan kualitas hidup masyarakat melalui berbagai program pemberdayaan</li>
+    <li>Membangun sinergi dengan berbagai pihak untuk mencapai tujuan bersama</li>
+    <li>Menciptakan dampak berkelanjutan yang dapat dirasakan dalam jangka panjang</li>
+  </ul>
+  
+  <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Cara Berpartisipasi</h2>
+  <p class="mb-4">Bagi Anda yang ingin berpartisipasi dalam program ini, silakan menghubungi tim kami melalui berbagai saluran komunikasi yang tersedia. Kami akan dengan senang hati membantu Anda untuk bergabung dalam program ini.</p>
+  
+  <p class="mb-4">Kami berharap program ini dapat memberikan manfaat yang sebesar-besarnya bagi masyarakat dan menjadi langkah awal untuk menciptakan perubahan positif di lingkungan sekitar kita.</p>
+`;
+---
+
+<Layout title={beritaItem.judul}>
+  <section class="bg-gradient-to-br from-[#F5F5F5] via-white to-[#F5F5F5] py-8 lg:py-16 overflow-hidden relative">
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-brand-secondary/5 rounded-full blur-3xl -z-10"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-brand-accent-orange/5 rounded-full blur-3xl -z-10"></div>
+
+    <div class="container mx-auto px-6 md:px-8 max-w-7xl relative z-10">
+      <!-- Back Button -->
+      <a
+        href="/berita"
+        class="inline-flex items-center gap-2 text-brand-primary hover:text-brand-secondary font-semibold mb-6 transition-colors duration-200 group mt-10"
+      >
+        <ArrowLeft class="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-1" />
+        <span>Kembali ke Berita</span>
+      </a>
+
+      <!-- Main Content: 2 Column Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left Column: Article Content (2/3 width) -->
+        <div class="lg:col-span-2">
+          <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <!-- Featured Image -->
+            <div class="relative h-64 md:h-96 overflow-hidden">
+              <img
+                src={beritaItem.thumbnail}
+                alt={beritaItem.judul}
+                class="w-full h-full object-cover"
+                loading="eager"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              
+              <!-- Category Badge -->
+              <div class="absolute top-6 left-6">
+                <span class="px-4 py-2 bg-brand-primary text-white text-sm font-semibold rounded-full">
+                  {beritaItem.category}
+                </span>
+              </div>
+            </div>
+
+            <!-- Article Header -->
+            <div class="p-6 md:p-8">
+              <!-- Title -->
+              <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                {beritaItem.judul}
+              </h1>
+
+              <!-- Metadata -->
+              <div class="flex flex-wrap items-center gap-6 mb-8 pb-6 border-b border-gray-200">
+                <div class="flex items-center gap-2 text-gray-600">
+                  <User class="w-5 h-5 text-brand-primary" />
+                  <span class="font-medium">{beritaItem.author}</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-600">
+                  <Calendar class="w-5 h-5 text-brand-primary" />
+                  <span>
+                    {new Intl.DateTimeFormat("id-ID", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    }).format(new Date(beritaItem.date_created))}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Article Body -->
+              <div class="prose prose-lg max-w-none mb-8">
+                <div class="text-gray-700 leading-relaxed text-lg" set:html={fullContent} />
+              </div>
+
+              <!-- Share Section -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Bagikan Artikel</h3>
+                <div class="flex flex-wrap gap-3">
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${Astro.url.href}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="px-4 py-2 bg-[#1877F2] text-white rounded-lg hover:bg-[#166FE5] transition-colors duration-200"
+                  >
+                    Facebook
+                  </a>
+                  <a
+                    href={`https://twitter.com/intent/tweet?url=${Astro.url.href}&text=${encodeURIComponent(beritaItem.judul)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="px-4 py-2 bg-[#1DA1F2] text-white rounded-lg hover:bg-[#1a8cd8] transition-colors duration-200"
+                  >
+                    Twitter
+                  </a>
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(beritaItem.judul + ' ' + Astro.url.href)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="px-4 py-2 bg-[#25D366] text-white rounded-lg hover:bg-[#20BA5A] transition-colors duration-200"
+                  >
+                    WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Comments Section -->
+          <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 md:p-8">
+            <div class="flex items-center gap-3 mb-6">
+              <MessageCircle class="w-6 h-6 text-brand-primary" />
+              <h2 class="text-2xl font-bold text-gray-900">Komentar</h2>
+              <span class="text-gray-500">({allBeritaData.length})</span>
+            </div>
+
+            <!-- Comment Form -->
+            <form class="mb-8 pb-8 border-b border-gray-200">
+              <div class="mb-4">
+                <textarea
+                  id="comment"
+                  name="comment"
+                  rows="4"
+                  placeholder="Tulis komentar Anda di sini..."
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent resize-none"
+                ></textarea>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-500">
+                  <span>Maksimal 500 karakter</span>
+                </div>
+                <button
+                  type="submit"
+                  class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-primary to-brand-secondary text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105"
+                >
+                  <Send class="w-5 h-5" />
+                  <span>Kirim Komentar</span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Comments List -->
+            <div class="space-y-6">
+              {[
+                {
+                  name: "Ahmad Rizki",
+                  avatar: "AR",
+                  date: "2 jam lalu",
+                  comment: "Artikel yang sangat informatif! Terima kasih Yayasan Sawiyan atas program-programnya yang sangat bermanfaat bagi masyarakat.",
+                },
+                {
+                  name: "Siti Nurhaliza",
+                  avatar: "SN",
+                  date: "5 jam lalu",
+                  comment: "Sangat menginspirasi! Semoga program ini bisa terus berjalan dan memberikan manfaat yang lebih luas lagi.",
+                },
+                {
+                  name: "Budi Santoso",
+                  avatar: "BS",
+                  date: "1 hari lalu",
+                  comment: "Saya sangat tertarik dengan program ini. Bagaimana cara untuk berpartisipasi?",
+                },
+              ].map((comment) => (
+                <div class="flex gap-4 pb-6 border-b border-gray-100 last:border-0">
+                  <!-- Avatar -->
+                  <div class="flex-shrink-0">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-brand-primary to-brand-secondary flex items-center justify-center text-white font-semibold">
+                      {comment.avatar}
+                    </div>
+                  </div>
+                  
+                  <!-- Comment Content -->
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-2">
+                      <h4 class="font-semibold text-gray-900">{comment.name}</h4>
+                      <span class="text-sm text-gray-500">{comment.date}</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">{comment.comment}</p>
+                    <div class="mt-3 flex items-center gap-4">
+                      <button class="text-sm text-gray-500 hover:text-brand-primary transition-colors duration-200">
+                        Balas
+                      </button>
+                      <button class="text-sm text-gray-500 hover:text-brand-primary transition-colors duration-200">
+                        Suka
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <!-- Load More Comments -->
+            <div class="mt-6 text-center">
+              <button class="px-6 py-2 border border-brand-primary text-brand-primary rounded-lg hover:bg-brand-primary hover:text-white transition-all duration-200">
+                Muat Komentar Lainnya
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Recommended Berita (1/3 width) -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24">
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+              <h2 class="text-2xl font-bold text-gray-900 mb-6 pb-4 border-b border-gray-200">
+                Berita Lainnya
+              </h2>
+              
+              <div class="space-y-6">
+                {allBeritaData
+                  .filter((item) => item.slug !== beritaItem.slug)
+                  .slice(0, 5)
+                  .map((item: BeritaItem) => (
+                    <a
+                      href={`/berita/${item.slug}`}
+                      class="group block"
+                    >
+                      <div class="flex gap-4">
+                        <!-- Thumbnail -->
+                        <div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden">
+                          <img
+                            src={item.thumbnail}
+                            alt={item.judul}
+                            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                            loading="lazy"
+                          />
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="flex-1 min-w-0">
+                          <div class="mb-1">
+                            <span class="inline-block px-2 py-0.5 bg-brand-secondary/10 text-brand-primary text-xs font-semibold rounded">
+                              {item.category}
+                            </span>
+                          </div>
+                          <h3 class="text-sm font-bold text-gray-900 mb-1 group-hover:text-brand-primary transition-colors duration-200 line-clamp-2">
+                            {item.judul}
+                          </h3>
+                          <div class="text-xs text-gray-500">
+                            {new Intl.DateTimeFormat("id-ID", {
+                              month: "short",
+                              day: "numeric",
+                            }).format(new Date(item.date_created))}
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+

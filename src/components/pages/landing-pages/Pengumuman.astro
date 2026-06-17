@@ -1,0 +1,296 @@
+---
+import { ArrowRight } from "@lucide/astro";
+
+const title = "Kabar terbaru dari Sawiyan.";
+const linkHref = "/berita";
+
+const pengumumanData = [
+  {
+    slug: "program-beasiswa-2025",
+    judul: "Program Beasiswa Yayasan Sawiyan 2025 Resmi Dibuka",
+    thumbnail: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=1000&fit=crop",
+    url_thumbnail: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=1000&fit=crop",
+    isi: "Yayasan Sawiyan membuka program beasiswa untuk siswa berprestasi dan keluarga kurang mampu. Program ini bertujuan untuk memberikan kesempatan pendidikan yang lebih baik bagi generasi penerus bangsa.",
+    date_created: "2024-11-15T10:00:00",
+  },
+  {
+    slug: "bantuan-kemanusiaan-2025",
+    judul: "Bantuan Kemanusiaan untuk Daerah Terdampak Bencana",
+    thumbnail: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop",
+    url_thumbnail: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop",
+    isi: "Yayasan Sawiyan menggelar program bantuan kemanusiaan untuk korban bencana alam. Bantuan meliputi bahan makanan, pakaian, dan kebutuhan pokok lainnya. Mari bersama-sama membantu mereka yang membutuhkan.",
+    date_created: "2024-11-10T14:30:00",
+  },
+  {
+    slug: "kegiatan-keagamaan-2025",
+    judul: "Kajian Keagamaan Bulanan untuk Umum",
+    thumbnail: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&h=600&fit=crop",
+    url_thumbnail: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&h=600&fit=crop",
+    isi: "Yayasan Sawiyan mengadakan kajian keagamaan rutin setiap bulan yang terbuka untuk umum. Kegiatan ini bertujuan untuk memperdalam pemahaman keagamaan dan memperkuat ukhuwah islamiyah.",
+    date_created: "2024-11-08T09:15:00",
+  },
+];
+---
+
+<section class="news-section">
+  <div class="news-inner">
+    <!-- Header: title + side quote -->
+    <div class="news-head">
+      <div class="news-head-left">
+        <div class="news-eyebrow">
+          <span>Berita &amp; Pengumuman</span>
+        </div>
+        <h2 class="news-title">
+          Kabar <em>terbaru</em> dari Sawiyan.
+        </h2>
+      </div>
+      <div class="news-head-side">
+        <p>"Cerita-cerita kecil yang membentuk dampak yang lebih besar."</p>
+        <a href={linkHref} class="news-side-cta">
+          Lihat Semua Berita
+          <ArrowRight class="w-3.5 h-3.5" />
+        </a>
+      </div>
+    </div>
+
+    <!-- News Grid: 1 feature + 2 standard -->
+    <div class="news-grid">
+      {pengumumanData.map((pengumuman, idx) => (
+        <article class={`news-card ${idx === 0 ? "feature" : ""}`}>
+          <div class="news-img-wrap">
+            <img
+              src={pengumuman.url_thumbnail}
+              alt={`Thumbnail untuk ${pengumuman.judul}`}
+              class="news-img"
+              loading="lazy"
+            />
+          </div>
+          <div class="news-meta">
+            <span>
+              {new Intl.DateTimeFormat("id-ID", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              }).format(new Date(pengumuman.date_created))}
+            </span>
+            <span class="news-meta-dot"></span>
+            <span>{idx === 0 ? "5 min baca" : idx === 1 ? "4 min" : "3 min"}</span>
+          </div>
+          <h3 class={`news-card-title ${idx === 0 ? "feature" : ""}`}>
+            <a href={`/berita/${pengumuman.slug}`}>{pengumuman.judul}</a>
+          </h3>
+          <p class="news-card-excerpt">
+            {pengumuman.isi?.replace(/<[^>]*>?/gm, " ").substring(0, idx === 0 ? 200 : 120) + "..."}
+          </p>
+          <a href={`/berita/${pengumuman.slug}`} class="news-card-link">
+            Baca Selengkapnya
+            <ArrowRight class="w-3.5 h-3.5" />
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .news-section {
+    background: var(--color-background);
+    padding: 128px 32px;
+  }
+
+  .news-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .news-head {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    align-items: end;
+    gap: 48px;
+    margin-bottom: 72px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .news-eyebrow {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+  }
+
+  .news-title {
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    max-width: 14ch;
+    margin: 0;
+  }
+
+  .news-title em {
+    font-style: italic;
+    color: var(--color-primary);
+  }
+
+  .news-head-side {
+    text-align: right;
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    max-width: 36ch;
+    margin-left: auto;
+  }
+
+  .news-head-side p {
+    margin: 0 0 16px 0;
+  }
+
+  .news-side-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding-bottom: 4px;
+    border-bottom: 1.5px solid var(--color-primary);
+    transition: gap 0.3s;
+  }
+
+  .news-side-cta:hover {
+    gap: 14px;
+  }
+
+  /* Grid */
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  .news-card {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .news-img-wrap {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+
+  .news-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    filter: saturate(0.85);
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .news-card.feature .news-img {
+    aspect-ratio: 4/5;
+  }
+
+  .news-card:hover .news-img {
+    transform: scale(1.04);
+  }
+
+  .news-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin: 0 0 10px 0;
+  }
+
+  .news-meta-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--color-primary);
+    border-radius: 50%;
+  }
+
+  .news-card-title {
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 0 0 12px 0;
+  }
+
+  .news-card-title.feature {
+    font-size: 32px;
+  }
+
+  .news-card-title a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .news-card-title a:hover {
+    color: var(--color-primary);
+  }
+
+  .news-card-excerpt {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0 0 16px 0;
+  }
+
+  .news-card-link {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    transition: gap 0.3s;
+  }
+
+  .news-card-link:hover {
+    gap: 12px;
+  }
+
+  @media (max-width: 960px) {
+    .news-head {
+      grid-template-columns: 1fr;
+    }
+
+    .news-head-side {
+      text-align: left;
+      margin-left: 0;
+    }
+
+    .news-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+</style>

@@ -1,0 +1,522 @@
+---
+// Slim hero header (single, no carousel)
+const heroImage = "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1920&h=1080&fit=crop";
+const heroEyebrow = "Tentang Yayasan";
+const heroTitle = "Yayasan Sawiyan <em>Ibnu Mukhlisin</em>";
+const heroSubtitle = "Membangun Peradaban Melalui Integrasi Ilmu dan Wahyu";
+const heroDesc = "Lembaga sosial-keagamaan dan pendidikan yang berkomitmen untuk berperan aktif dalam pengembangan peradaban melalui penguatan pendidikan, penelitian, dan pengabdian kepada masyarakat.";
+
+// Profile body
+const profileTitle = "Selamat datang di";
+const profileStroked = "Yayasan Sawiyan";
+const profileDesc1 = "Yayasan Sawiyan Ibnu Mukhlisin didirikan atas kesadaran bahwa kemajuan umat dan bangsa harus dibangun di atas fondasi ilmu pengetahuan yang kokoh, berlandaskan nilai-nilai ilahiah yang bersumber dari Al-Qur'an dan Hadis Nabi Muhammad ﷺ.";
+const profileDesc2 = "Dalam menjalankan kiprahnya, yayasan mengintegrasikan ilmu pengetahuan kontemporer dengan khazanah keilmuan Islam secara harmonis dan berkelanjutan. Pendekatan integratif ini diarahkan untuk melahirkan insan berilmu, berakhlak mulia, serta memiliki kemampuan adaptif terhadap dinamika perkembangan zaman, tanpa kehilangan jati diri keislamannya.";
+
+const profileImage = "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=1000&fit=crop";
+const profileImage2 = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=400&fit=crop";
+
+// Three pillars
+const pillars = [
+  {
+    initial: "P",
+    name: "Pendidikan",
+    desc: "Menyelenggarakan pendidikan yang menekankan keseimbangan antara kecerdasan intelektual, spiritual, emosional, dan sosial dengan budaya berpikir kritis dan inovatif.",
+  },
+  {
+    initial: "R",
+    name: "Penelitian",
+    desc: "Mendorong riset yang berorientasi pada pemecahan masalah umat dengan memadukan pendekatan ilmiah modern dan perspektif keislaman untuk pembangunan berkelanjutan.",
+  },
+  {
+    initial: "M",
+    name: "Pengabdian",
+    desc: "Menghadirkan solusi dan pemberdayaan berbasis nilai-nilai Islam melalui pendidikan, pendampingan, dan penguatan nilai keagamaan yang rahmatan lil 'alamin.",
+  },
+];
+---
+
+<!-- Slim Hero (matches Slider.astro pattern, single) -->
+<section class="page-hero" aria-labelledby="page-hero-title">
+  <div class="page-hero-img" style={`background-image: url('${heroImage}');`}></div>
+  <div class="page-hero-overlay"></div>
+
+  <div class="page-hero-content">
+    <div class="page-hero-eyebrow">
+      <span class="page-hero-rule"></span>
+      <span>{heroEyebrow}</span>
+    </div>
+    <h1 id="page-hero-title" class="page-hero-title" set:html={heroTitle}></h1>
+    <p class="page-hero-subtitle">
+      {heroSubtitle}
+    </p>
+    <p class="page-hero-desc">
+      {heroDesc}
+    </p>
+  </div>
+</section>
+
+<!-- Profile body (2-col: text + image with stat card) -->
+<section id="profile" class="profil-body">
+  <div class="profil-grid">
+    <div class="profil-content">
+      <div class="profil-eyebrow">
+        <span class="profil-eyebrow-rule"></span>
+        <span>Profil Lengkap</span>
+      </div>
+
+      <h2 class="profil-title">
+        {profileTitle} <em>{profileStroked}</em>
+      </h2>
+
+      <p class="profil-body-text">{profileDesc1}</p>
+      <p class="profil-body-text">{profileDesc2}</p>
+
+      <!-- Signature -->
+      <div class="profil-signature">
+        <div class="profil-signature-avatar">S</div>
+        <div class="profil-signature-meta">
+          Para pendiri Sawiyan
+          <small>Bersama Membangun Kebaikan</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="profil-image-wrap">
+      <img src={profileImage} alt="Yayasan Sawiyan" class="profil-image" loading="lazy" />
+      <div class="profil-image-stat">
+        <div class="num">12+</div>
+        <div class="label">Tahun Pengabdian</div>
+      </div>
+      <img src={profileImage2} alt="Kegiatan Yayasan" class="profil-image-2" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<!-- Three pillars (sand background) -->
+<section class="profil-pillars">
+  <div class="profil-pillars-inner">
+    <div class="profil-pillars-head">
+      <div>
+        <div class="profil-pillars-eyebrow">Arah Pengembangan</div>
+        <h3 class="profil-pillars-title">Tiga pilar <em>utama</em> pengembangan.</h3>
+      </div>
+      <p class="profil-pillars-intro">Komitmen kami dalam membangun peradaban yang unggul melalui tiga pilar utama yang saling terintegrasi.</p>
+    </div>
+
+    <div class="profil-pillars-grid">
+      {
+        pillars.map((p, idx) => (
+          <div class="profil-pillar">
+            <div class="profil-pillar-icon">{p.initial}</div>
+            <div class="profil-pillar-num">0{idx + 1}</div>
+            <div class="profil-pillar-name">{p.name}</div>
+            <div class="profil-pillar-desc">{p.desc}</div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ============================================
+     PAGE HERO (slim, no carousel)
+     ============================================ */
+  .page-hero {
+    position: relative;
+    min-height: 56vh;
+    background: var(--color-primary);
+    color: var(--color-background);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .page-hero-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: saturate(0.7) brightness(0.7);
+  }
+
+  .page-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(74, 93, 63, 0.85) 0%,
+      rgba(42, 46, 37, 0.7) 100%
+    );
+  }
+
+  .page-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 128px 32px;
+  }
+
+  .page-hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary-lighter);
+    margin-bottom: 20px;
+  }
+
+  .page-hero-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--color-primary-lighter);
+  }
+
+  .page-hero-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: clamp(36px, 4.5vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    max-width: 18ch;
+    margin: 0 0 24px 0;
+  }
+
+  .page-hero-title :global(em) {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--color-primary-lighter);
+  }
+
+  .page-hero-subtitle {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.4;
+    color: var(--color-primary-lighter);
+    max-width: 32ch;
+    margin: 0 0 24px 0;
+  }
+
+  .page-hero-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(247, 242, 231, 0.85);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  /* ============================================
+     PROFILE BODY (2-column)
+     ============================================ */
+  .profil-body {
+    background: var(--color-background);
+    padding: 128px 32px;
+  }
+
+  .profil-grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 96px;
+    align-items: center;
+  }
+
+  .profil-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 24px;
+  }
+
+  .profil-eyebrow-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--color-primary);
+  }
+
+  .profil-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 68px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--color-text-primary);
+    margin: 0 0 32px 0;
+  }
+
+  .profil-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--color-primary);
+  }
+
+  .profil-body-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    max-width: 52ch;
+    margin: 0 0 24px 0;
+  }
+
+  .profil-signature {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .profil-signature-avatar {
+    width: 48px;
+    height: 48px;
+    background: var(--color-primary);
+    color: var(--color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-style: italic;
+    font-size: 22px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .profil-signature-meta {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-style: italic;
+    color: var(--color-text-primary);
+  }
+
+  .profil-signature-meta small {
+    display: block;
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Image column */
+  .profil-image-wrap {
+    position: relative;
+    aspect-ratio: 4/5;
+  }
+
+  .profil-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    filter: saturate(0.85);
+  }
+
+  .profil-image-2 {
+    position: absolute;
+    right: -32px;
+    bottom: -32px;
+    width: 50%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 6px solid var(--color-background);
+    box-shadow: 0 12px 40px rgba(42, 46, 37, 0.15);
+    border-radius: 4px;
+  }
+
+  .profil-image-stat {
+    position: absolute;
+    top: 24px;
+    left: -24px;
+    background: var(--color-primary);
+    color: var(--color-background);
+    padding: 20px 24px;
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(42, 46, 37, 0.15);
+  }
+
+  .profil-image-stat .num {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .profil-image-stat .label {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary-lighter);
+    margin-top: 6px;
+  }
+
+  /* ============================================
+     PILLARS (3-column grid in sand bg)
+     ============================================ */
+  .profil-pillars {
+    background: var(--color-sand);
+    padding: 96px 32px;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .profil-pillars-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .profil-pillars-head {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: end;
+    gap: 64px;
+    margin-bottom: 64px;
+  }
+
+  .profil-pillars-eyebrow {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+  }
+
+  .profil-pillars-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: clamp(36px, 4.5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    max-width: 20ch;
+    margin: 0;
+  }
+
+  .profil-pillars-title em {
+    font-style: italic;
+    color: var(--color-primary);
+  }
+
+  .profil-pillars-intro {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 44ch;
+    margin: 0 0 0 auto;
+  }
+
+  .profil-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .profil-pillar {
+    background: var(--color-surface);
+    padding: 36px 32px;
+    border-radius: 4px;
+    position: relative;
+    transition:
+      transform 0.4s,
+      box-shadow 0.4s;
+  }
+
+  .profil-pillar:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(42, 46, 37, 0.08);
+  }
+
+  .profil-pillar-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-background);
+    margin-bottom: 24px;
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-style: italic;
+    font-size: 22px;
+  }
+
+  .profil-pillar-num {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+  }
+
+  .profil-pillar-name {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin-bottom: 12px;
+  }
+
+  .profil-pillar-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 960px) {
+    .page-hero-content {
+      padding: 96px 24px;
+    }
+
+    .profil-body {
+      padding: 64px 24px;
+    }
+
+    .profil-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .profil-pillars {
+      padding: 64px 24px;
+    }
+
+    .profil-pillars-head {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .profil-pillars-intro {
+      margin-left: 0;
+    }
+
+    .profil-pillars-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .profil-image-2 {
+      right: -16px;
+      bottom: -16px;
+    }
+
+    .profil-image-stat {
+      left: -8px;
+      top: 16px;
+    }
+  }
+</style>

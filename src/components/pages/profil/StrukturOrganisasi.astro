@@ -1,0 +1,381 @@
+---
+const logoysim = "/logo-ysim.png";
+
+// Tier 1: YSIM (top, full-width moss card)
+const tier1 = {
+  code: "YSIM",
+  name: "Yayasan Sawiyan Ibnu Mukhlisin",
+  desc: "Badan pengelola tertinggi yayasan",
+};
+
+// Tier 2: Pembina + Pengawas
+const tier2 = [
+  {
+    code: "PEMBINA",
+    name: "Pembina Yayasan",
+    desc: "Memberikan arahan strategis",
+  },
+  {
+    code: "PENGAWAS",
+    name: "Pengawas Yayasan",
+    desc: "Mengawasi jalannya organisasi",
+  },
+];
+
+// Tier 3: Executive board
+const tier3 = [
+  {
+    code: "KETUA",
+    name: "Ketua Yayasan",
+    desc: "Memimpin operasional harian",
+  },
+  {
+    code: "SEKRETARIS",
+    name: "Sekretaris Yayasan",
+    desc: "Mengelola administrasi",
+  },
+  {
+    code: "BENDAHARA",
+    name: "Bendahara Yayasan",
+    desc: "Mengelola keuangan yayasan",
+  },
+];
+---
+
+<section id="struktur-organisasi" class="struktur" aria-labelledby="struktur-title">
+  <div class="struktur-inner">
+    <!-- Header -->
+    <header class="struktur-head">
+      <div class="struktur-eyebrow">
+        <span class="struktur-eyebrow-rule"></span>
+        <span>Struktur Organisasi</span>
+      </div>
+      <div class="struktur-head-grid">
+        <h2 id="struktur-title" class="struktur-title">
+          Organisasi yang <em>solid</em> dan profesional.
+        </h2>
+        <p class="struktur-intro">Tata kelola yayasan yang transparan dan terstruktur untuk memastikan setiap program berjalan dengan integritas dan akuntabilitas.</p>
+      </div>
+    </header>
+
+    <!-- Tier 1: YSIM (top, full-width featured) -->
+    <div class="struktur-tier-1">
+      <div class="struktur-card-featured">
+        <div class="struktur-card-featured-mark">
+          <img src={logoysim} alt="YSIM Logo" class="struktur-card-featured-logo" loading="lazy" onerror="this.style.display='none'" />
+          <div class="struktur-card-featured-code">{tier1.code}</div>
+        </div>
+        <div class="struktur-card-featured-meta">
+          <div class="struktur-card-featured-name">{tier1.name}</div>
+          <div class="struktur-card-featured-desc">{tier1.desc}</div>
+        </div>
+        <div class="struktur-card-featured-num">01</div>
+      </div>
+    </div>
+
+    <!-- Connector -->
+    <div class="struktur-connector">
+      <div class="struktur-connector-line"></div>
+    </div>
+
+    <!-- Tier 2: Pembina + Pengawas (2-col) -->
+    <div class="struktur-tier-2">
+      {
+        tier2.map((item, idx) => (
+          <div class="struktur-card">
+            <div class="struktur-card-num">0{idx + 2}</div>
+            <div class="struktur-card-mark">
+              <img src={logoysim} alt="Logo" class="struktur-card-logo" loading="lazy" onerror="this.style.display='none'" />
+              <div class="struktur-card-code">{item.code}</div>
+            </div>
+            <div class="struktur-card-name">{item.name}</div>
+            <div class="struktur-card-desc">{item.desc}</div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Connector -->
+    <div class="struktur-connector">
+      <div class="struktur-connector-line"></div>
+    </div>
+
+    <!-- Tier 3: Executive board (3-col) -->
+    <div class="struktur-tier-3">
+      {
+        tier3.map((item, idx) => (
+          <div class="struktur-card">
+            <div class="struktur-card-num">0{idx + 4}</div>
+            <div class="struktur-card-mark">
+              <img src={logoysim} alt="Logo" class="struktur-card-logo" loading="lazy" onerror="this.style.display='none'" />
+              <div class="struktur-card-code">{item.code}</div>
+            </div>
+            <div class="struktur-card-name">{item.name}</div>
+            <div class="struktur-card-desc">{item.desc}</div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .struktur {
+    background: var(--color-sand);
+    padding: 128px 32px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .struktur-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .struktur-head {
+    margin-bottom: 80px;
+  }
+
+  .struktur-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 24px;
+  }
+
+  .struktur-eyebrow-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--color-primary);
+  }
+
+  .struktur-head-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+
+  .struktur-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .struktur-title em {
+    font-style: italic;
+    color: var(--color-primary);
+  }
+
+  .struktur-intro {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 44ch;
+    margin: 0 0 0 auto;
+  }
+
+  /* Tier 1: featured YSIM */
+  .struktur-tier-1 {
+    margin-bottom: 0;
+  }
+
+  .struktur-card-featured {
+    background: var(--color-primary);
+    color: var(--color-background);
+    padding: 48px 56px;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 40px;
+    position: relative;
+  }
+
+  .struktur-card-featured-mark {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .struktur-card-featured-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    background: var(--color-background);
+    border-radius: 4px;
+    padding: 8px;
+  }
+
+  .struktur-card-featured-code {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-style: italic;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--color-background);
+  }
+
+  .struktur-card-featured-name {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin-bottom: 4px;
+  }
+
+  .struktur-card-featured-desc {
+    font-size: 13px;
+    color: var(--color-primary-lighter);
+    letter-spacing: 0.02em;
+  }
+
+  .struktur-card-featured-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--color-primary-lighter);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Connectors */
+  .struktur-connector {
+    display: flex;
+    justify-content: center;
+    padding: 24px 0;
+  }
+
+  .struktur-connector-line {
+    width: 1px;
+    height: 48px;
+    background: var(--color-primary);
+    opacity: 0.3;
+  }
+
+  /* Tier 2 + 3 cards */
+  .struktur-tier-2,
+  .struktur-tier-3 {
+    display: grid;
+    gap: 24px;
+  }
+
+  .struktur-tier-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .struktur-tier-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .struktur-card {
+    background: var(--color-surface);
+    padding: 36px 32px;
+    border-radius: 4px;
+    text-align: center;
+    position: relative;
+    transition:
+      transform 0.4s,
+      box-shadow 0.4s;
+  }
+
+  .struktur-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(42, 46, 37, 0.08);
+  }
+
+  .struktur-card-num {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.1em;
+  }
+
+  .struktur-card-mark {
+    margin: 0 auto 20px;
+    width: fit-content;
+  }
+
+  .struktur-card-logo {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    background: var(--color-sand);
+    border-radius: 4px;
+    padding: 6px;
+    margin: 0 auto 12px;
+  }
+
+  .struktur-card-code {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-primary);
+    letter-spacing: 0.05em;
+  }
+
+  .struktur-card-name {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+  }
+
+  .struktur-card-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 960px) {
+    .struktur {
+      padding: 64px 24px;
+    }
+
+    .struktur-head {
+      margin-bottom: 48px;
+    }
+
+    .struktur-head-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .struktur-intro {
+      margin-left: 0;
+    }
+
+    .struktur-card-featured {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .struktur-card-featured-mark {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .struktur-card-featured-num {
+      position: static;
+    }
+
+    .struktur-tier-2,
+    .struktur-tier-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

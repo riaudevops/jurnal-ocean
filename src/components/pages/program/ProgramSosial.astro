@@ -1,0 +1,399 @@
+---
+const programFeature = {
+  eyebrow: "Program Unggulan",
+  category: "Program Sosial",
+  title: "Program Beasiswa",
+  desc: "Memberikan beasiswa untuk siswa berprestasi dan keluarga kurang mampu untuk melanjutkan pendidikan ke jenjang yang lebih tinggi. Program ini bertujuan untuk memberikan kesempatan pendidikan yang lebih baik bagi generasi penerus bangsa.",
+  image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=800&fit=crop",
+  stat: { num: "150+", label: "Penerima Beasiswa" },
+  bullets: [
+    "Beasiswa untuk SD, SMP, SMA, dan Perguruan Tinggi",
+    "Bantuan biaya pendidikan dan kebutuhan sekolah",
+    "Pendampingan dan mentoring untuk penerima beasiswa",
+  ],
+};
+
+const programCards = [
+  {
+    icon: "H",
+    title: "Bantuan Sosial",
+    desc: "Penyaluran bantuan sosial berupa sembako, pakaian, dan kebutuhan pokok lainnya untuk keluarga yang membutuhkan.",
+    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop",
+  },
+  {
+    icon: "P",
+    title: "Pelatihan Keterampilan",
+    desc: "Program pelatihan keterampilan untuk meningkatkan kemampuan dan peluang ekonomi masyarakat, termasuk kerajinan, pertanian, dan wirausaha.",
+    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop",
+  },
+  {
+    icon: "K",
+    title: "Bantuan Kesehatan",
+    desc: "Program bantuan kesehatan gratis berupa pemeriksaan kesehatan, pengobatan, dan penyuluhan kesehatan untuk masyarakat.",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop",
+  },
+  {
+    icon: "E",
+    title: "Pemberdayaan Perempuan",
+    desc: "Program khusus untuk memberdayakan perempuan melalui pelatihan, pendampingan, dan dukungan untuk meningkatkan kualitas hidup.",
+    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&h=600&fit=crop",
+  },
+  {
+    icon: "L",
+    title: "Bantuan Lansia",
+    desc: "Program bantuan khusus untuk lansia berupa kebutuhan pokok, kesehatan, dan kegiatan sosial untuk meningkatkan kesejahteraan mereka.",
+    image: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&h=600&fit=crop",
+  },
+  {
+    icon: "M",
+    title: "Pemberdayaan Masyarakat",
+    desc: "Program komprehensif untuk memberdayakan masyarakat melalui berbagai kegiatan sosial, ekonomi, dan pendidikan yang terintegrasi.",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop",
+  },
+];
+---
+
+<section id="sosial" class="program" aria-labelledby="sosial-title">
+  <div class="program-inner">
+    <!-- Header -->
+    <header class="program-head">
+      <div class="program-eyebrow">
+        <span class="program-eyebrow-rule"></span>
+        <span>{programFeature.category}</span>
+      </div>
+      <h2 id="sosial-title" class="program-title">
+        Program Sosial <em>Yayasan Sawiyan</em>.
+      </h2>
+      <p class="program-intro">Program-program sosial yang bertujuan untuk membantu dan memberdayakan masyarakat yang membutuhkan.</p>
+    </header>
+
+    <!-- Feature row (2-col image+text) -->
+    <div class="program-feature">
+      <div class="program-feature-image">
+        <img src={programFeature.image} alt={programFeature.title} class="program-feature-img" loading="lazy" />
+        <div class="program-feature-stat">
+          <div class="num">{programFeature.stat.num}</div>
+          <div class="label">{programFeature.stat.label}</div>
+        </div>
+      </div>
+
+      <div class="program-feature-content">
+        <div class="program-feature-eyebrow">{programFeature.eyebrow}</div>
+        <h3 class="program-feature-title">{programFeature.title}</h3>
+        <p class="program-feature-desc">{programFeature.desc}</p>
+        <ul class="program-feature-list">
+          {
+            programFeature.bullets.map((bullet) => (
+              <li class="program-feature-item">
+                <span class="program-feature-dot"></span>
+                <span>{bullet}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Card grid (3-col) -->
+    <div class="program-grid">
+      {
+        programCards.map((program, idx) => (
+          <article class="program-card">
+            <div class="program-card-image">
+              <img src={program.image} alt={program.title} class="program-card-img" loading="lazy" />
+              <div class="program-card-num">0{idx + 1}</div>
+            </div>
+            <div class="program-card-content">
+              <div class="program-card-icon">{program.icon}</div>
+              <h4 class="program-card-title">{program.title}</h4>
+              <p class="program-card-desc">{program.desc}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .program {
+    background: var(--color-background);
+    padding: 128px 32px;
+  }
+
+  .program-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .program-head {
+    max-width: 720px;
+    margin: 0 auto 80px;
+    text-align: center;
+  }
+
+  .program-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+  }
+
+  .program-eyebrow-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--color-primary);
+  }
+
+  .program-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--color-text-primary);
+    margin: 0 0 24px 0;
+  }
+
+  .program-title em {
+    font-style: italic;
+    color: var(--color-primary);
+  }
+
+  .program-intro {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 56ch;
+    margin: 0 auto;
+  }
+
+  /* Feature row */
+  .program-feature {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 96px;
+    padding-bottom: 96px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .program-feature-image {
+    position: relative;
+    aspect-ratio: 4/3;
+  }
+
+  .program-feature-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    filter: saturate(0.85);
+  }
+
+  .program-feature-stat {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    background: var(--color-primary);
+    color: var(--color-background);
+    padding: 24px 28px;
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(42, 46, 37, 0.15);
+  }
+
+  .program-feature-stat .num {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .program-feature-stat .label {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary-lighter);
+    margin-top: 6px;
+  }
+
+  .program-feature-content {
+    max-width: 52ch;
+  }
+
+  .program-feature-eyebrow {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+  }
+
+  .program-feature-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: clamp(32px, 3.6vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    margin: 0 0 20px 0;
+  }
+
+  .program-feature-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin: 0 0 24px 0;
+  }
+
+  .program-feature-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .program-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+  }
+
+  .program-feature-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  /* Card grid */
+  .program-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .program-card {
+    background: var(--color-surface);
+    border-radius: 4px;
+    overflow: hidden;
+    transition:
+      transform 0.4s,
+      box-shadow 0.4s;
+  }
+
+  .program-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(42, 46, 37, 0.08);
+  }
+
+  .program-card-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+
+  .program-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85);
+    transition: transform 0.6s;
+  }
+
+  .program-card:hover .program-card-img {
+    transform: scale(1.04);
+  }
+
+  .program-card-num {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--color-background);
+    color: var(--color-primary);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+  }
+
+  .program-card-content {
+    padding: 28px 28px 32px;
+  }
+
+  .program-card-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--color-primary);
+    color: var(--color-background);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-style: italic;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .program-card-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--color-text-primary);
+    margin: 0 0 10px 0;
+  }
+
+  .program-card-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  @media (max-width: 960px) {
+    .program {
+      padding: 64px 24px;
+    }
+
+    .program-head {
+      margin-bottom: 48px;
+    }
+
+    .program-feature {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      margin-bottom: 64px;
+      padding-bottom: 64px;
+    }
+
+    .program-feature-stat {
+      right: 0;
+      bottom: -16px;
+    }
+
+    .program-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

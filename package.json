@@ -1,0 +1,33 @@
+{
+  "name": "mpa_jurnalocean",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^10.1.4",
+    "@astrojs/react": "^5.0.7",
+    "@fontsource-variable/merriweather-sans": "^5.2.7",
+    "@lucide/astro": "^1.20.0",
+    "@tailwindcss/vite": "^4.3.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^6.4.7",
+    "embla-carousel": "^8.6.0",
+    "framer-motion": "^12.40.0",
+    "gsap": "^3.15.0",
+    "lucide-astro": "^0.556.0",
+    "lucide-react": "^1.20.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "swiper": "^12.2.0",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20"
+  }
+}

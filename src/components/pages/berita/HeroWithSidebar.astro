@@ -1,0 +1,340 @@
+---
+interface BeritaItem {
+  slug: string;
+  category: string;
+  judul: string;
+  thumbnail: string;
+  excerpt: string;
+  date_created: string;
+  author: string;
+}
+
+const { heroBerita, sidebarBerita } = Astro.props;
+
+const formatDate = (dateStr: string) => {
+  return new Intl.DateTimeFormat("id-ID", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(dateStr));
+};
+---
+
+<section class="news-head" aria-labelledby="news-head-title">
+  <div class="news-head-inner">
+    <!-- 1.4fr / 1fr split: feature (left) + sidebar (right) -->
+    <div class="news-head-grid">
+      <!-- Feature card (left, larger) -->
+      <article class="news-head-feature">
+        <a href={`/berita/${heroBerita.slug}`} class="news-head-feature-link">
+          <div class="news-head-feature-image">
+            <img src={heroBerita.thumbnail} alt={heroBerita.judul} class="news-head-feature-img" loading="eager" />
+          </div>
+          <div class="news-head-feature-content">
+            <div class="news-head-feature-meta">
+              <span class="news-head-eyebrow-tag">Berita Utama</span>
+              <span class="news-head-meta-date">
+                {formatDate(heroBerita.date_created)}
+              </span>
+            </div>
+            <h1 id="news-head-title" class="news-head-feature-title">
+              {heroBerita.judul}
+            </h1>
+            <p class="news-head-feature-excerpt">{heroBerita.excerpt}</p>
+            <div class="news-head-feature-cta">
+              <span>Baca Selengkapnya</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="news-head-feature-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <!-- Sidebar list (right) -->
+      <aside class="news-head-sidebar">
+        <div class="news-head-sidebar-head">
+          <div class="news-head-eyebrow">
+            <span class="news-head-eyebrow-rule"></span>
+            <span>Berita Lainnya</span>
+          </div>
+          <div class="news-head-sidebar-side">
+            <span>— {sidebarBerita.length} artikel</span>
+          </div>
+        </div>
+
+        <ol class="news-head-list">
+          {
+            sidebarBerita.map((berita: BeritaItem, idx: number) => (
+              <li class="news-head-item">
+                <a href={`/berita/${berita.slug}`} class="news-head-item-link">
+                  <span class="news-head-item-num">{String(idx + 1).padStart(2, "0")}</span>
+                  <div class="news-head-item-body">
+                    <div class="news-head-item-category">{berita.category}</div>
+                    <h4 class="news-head-item-title">{berita.judul}</h4>
+                    <div class="news-head-item-meta">
+                      {berita.author} · {formatDate(berita.date_created)}
+                    </div>
+                  </div>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .news-head {
+    background: var(--color-background);
+    padding: 96px 32px 64px;
+  }
+
+  .news-head-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .news-head-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* ============================================
+     FEATURE CARD (left)
+     ============================================ */
+  .news-head-feature {
+    position: relative;
+  }
+
+  .news-head-feature-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .news-head-feature-image {
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 32px;
+  }
+
+  .news-head-feature-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85);
+    transition: transform 0.6s;
+  }
+
+  .news-head-feature:hover .news-head-feature-img {
+    transform: scale(1.03);
+  }
+
+  .news-head-feature-content {
+    max-width: 56ch;
+  }
+
+  .news-head-feature-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .news-head-eyebrow-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .news-head-eyebrow-tag::before {
+    content: "";
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--color-primary);
+  }
+
+  .news-head-meta-date {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.05em;
+  }
+
+  .news-head-feature-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    margin: 0 0 20px 0;
+  }
+
+  .news-head-feature:hover .news-head-feature-title {
+    color: var(--color-primary);
+    transition: color 0.3s;
+  }
+
+  .news-head-feature-excerpt {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0 0 24px 0;
+  }
+
+  .news-head-feature-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    transition: gap 0.3s;
+  }
+
+  .news-head-feature:hover .news-head-feature-cta {
+    gap: 16px;
+  }
+
+  .news-head-feature-arrow {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ============================================
+     SIDEBAR LIST (right)
+     ============================================ */
+  .news-head-sidebar {
+    position: sticky;
+    top: 96px;
+  }
+
+  .news-head-sidebar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .news-head-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .news-head-eyebrow-rule {
+    width: 24px;
+    height: 1px;
+    background: var(--color-primary);
+  }
+
+  .news-head-sidebar-side {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.05em;
+  }
+
+  .news-head-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .news-head-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .news-head-item:last-child {
+    border-bottom: none;
+  }
+
+  .news-head-item-link {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    padding: 20px 0;
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left 0.3s;
+  }
+
+  .news-head-item:hover .news-head-item-link {
+    padding-left: 4px;
+  }
+
+  .news-head-item-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    padding-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .news-head-item-category {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 6px;
+  }
+
+  .news-head-item-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+    margin: 0 0 8px 0;
+  }
+
+  .news-head-item:hover .news-head-item-title {
+    color: var(--color-primary);
+    transition: color 0.3s;
+  }
+
+  .news-head-item-meta {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+  }
+
+  @media (max-width: 960px) {
+    .news-head {
+      padding: 64px 24px;
+    }
+
+    .news-head-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .news-head-sidebar {
+      position: static;
+    }
+  }
+</style>

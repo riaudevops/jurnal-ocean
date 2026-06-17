@@ -1,0 +1,270 @@
+---
+const visi = {
+  eyebrow: "Visi",
+  quote: "Menjadi yayasan unggulan dalam pengembangan pendidikan, penelitian, dan pengabdian kepada masyarakat yang berlandaskan integrasi ilmu pengetahuan kontemporer dengan Al-Qur'an dan Hadis untuk membangun peradaban yang beriman, berilmu, dan berakhlak mulia.",
+  attr: "Yayasan Sawiyan Ibnu Mukhlisin",
+};
+
+const misiList = [
+  {
+    title: "Pendidikan Berkualitas",
+    desc: "Menyelenggarakan dan mengembangkan pendidikan yang berkualitas dengan mengintegrasikan ilmu pengetahuan modern dan nilai-nilai Islam.",
+  },
+  {
+    title: "Penelitian Integratif",
+    desc: "Mendorong dan mengembangkan penelitian integratif yang berorientasi pada pengembangan keilmuan dan pemecahan masalah umat.",
+  },
+  {
+    title: "Pengabdian Masyarakat",
+    desc: "Melaksanakan pengabdian kepada masyarakat berbasis pemberdayaan, edukasi, dan nilai-nilai keislaman yang rahmatan lil 'alamin.",
+  },
+  {
+    title: "Budaya Inovasi",
+    desc: "Menumbuhkan budaya keilmuan, inovasi, dan kolaborasi dalam rangka menjawab tantangan global dan lokal.",
+  },
+  {
+    title: "Karakter Unggul",
+    desc: "Menguatkan karakter insan yang beriman, berakhlak mulia, bertanggung jawab, dan berkontribusi aktif bagi kemajuan bangsa.",
+  },
+];
+---
+
+<section id="visi-misi" class="visi-misi" aria-labelledby="visi-misi-title">
+  <div class="visi-misi-inner">
+    <!-- Section header -->
+    <header class="visi-misi-head">
+      <div class="visi-misi-eyebrow">
+        <span class="visi-misi-eyebrow-rule"></span>
+        <span>Visi & Misi</span>
+      </div>
+      <h2 id="visi-misi-title" class="visi-misi-title">
+        Arah dan <em>tujuan</em> pengembangan peradaban.
+      </h2>
+    </header>
+
+    <!-- 2-column split: Visi (left) + Misi list (right) -->
+    <div class="visi-misi-grid">
+      <!-- Visi (left) -->
+      <aside class="visi-side">
+        <div class="visi-card">
+          <div class="visi-card-eyebrow">{visi.eyebrow}</div>
+          <p class="visi-card-quote">
+            <span class="visi-card-quote-mark">"</span>
+            {visi.quote}
+          </p>
+          <div class="visi-card-attr">— {visi.attr}</div>
+        </div>
+      </aside>
+
+      <!-- Misi (right) -->
+      <div class="misi-list">
+        <div class="misi-list-eyebrow">Misi</div>
+        <ol class="misi-list-items">
+          {
+            misiList.map((m, idx) => (
+              <li class="misi-item">
+                <div class="misi-item-num">0{idx + 1}</div>
+                <div class="misi-item-body">
+                  <h3 class="misi-item-title">{m.title}</h3>
+                  <p class="misi-item-desc">{m.desc}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .visi-misi {
+    background: var(--color-background);
+    padding: 128px 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .visi-misi-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* Section header */
+  .visi-misi-head {
+    max-width: 720px;
+    margin-bottom: 80px;
+  }
+
+  .visi-misi-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+  }
+
+  .visi-misi-eyebrow-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--color-primary);
+  }
+
+  .visi-misi-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .visi-misi-title em {
+    font-style: italic;
+    color: var(--color-primary);
+  }
+
+  /* 2-col grid */
+  .visi-misi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* Visi card (left) */
+  .visi-side {
+    position: sticky;
+    top: 96px;
+  }
+
+  .visi-card {
+    background: var(--color-primary);
+    color: var(--color-background);
+    padding: 48px 40px;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .visi-card-eyebrow {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary-lighter);
+    margin-bottom: 24px;
+  }
+
+  .visi-card-quote {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(20px, 2vw, 24px);
+    line-height: 1.5;
+    color: var(--color-background);
+    margin: 0 0 24px 0;
+    position: relative;
+  }
+
+  .visi-card-quote-mark {
+    font-size: 1.2em;
+    line-height: 0;
+    vertical-align: -0.1em;
+    color: var(--color-primary-lighter);
+    margin-right: 4px;
+  }
+
+  .visi-card-attr {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary-lighter);
+    padding-top: 20px;
+    border-top: 1px solid rgba(247, 242, 231, 0.15);
+  }
+
+  /* Misi list (right) */
+  .misi-list-eyebrow {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 32px;
+  }
+
+  .misi-list-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .misi-item {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 24px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--color-border);
+    align-items: start;
+  }
+
+  .misi-item:first-child {
+    padding-top: 0;
+  }
+
+  .misi-item:last-child {
+    border-bottom: none;
+  }
+
+  .misi-item-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: var(--color-primary);
+    font-weight: 500;
+    padding-top: 8px;
+  }
+
+  .misi-item-title {
+    font-family: "Fraunces", "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--color-text-primary);
+    margin: 0 0 8px 0;
+  }
+
+  .misi-item-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+    max-width: 56ch;
+  }
+
+  @media (max-width: 960px) {
+    .visi-misi {
+      padding: 64px 24px;
+    }
+
+    .visi-misi-head {
+      margin-bottom: 48px;
+    }
+
+    .visi-misi-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .visi-side {
+      position: static;
+    }
+  }
+</style>

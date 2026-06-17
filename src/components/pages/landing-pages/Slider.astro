@@ -1,0 +1,333 @@
+---
+// 1. Tipe data slide
+export interface Slide {
+  gambar: string;
+  num: string;
+  label: string;
+  quote: string;
+}
+
+// 2. Data slide hardcoded (6 nilai utama Sawiyan)
+const slides: Slide[] = [
+  {
+    gambar: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1920&h=1080&fit=crop",
+    num: "01",
+    label: "Menjunjung tinggi <em>kejujuran, amanah, dan tanggung jawab</em> dalam setiap langkah.",
+    quote: "“Integritas adalah napas dari setiap pengabdian yang kami lakukan.”"
+  },
+  {
+    gambar: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1920&h=1080&fit=crop",
+    num: "02",
+    label: "Mengembangkan <em>ilmu pengetahuan</em> secara berkelanjutan dan berbasis Islam.",
+    quote: "“Ilmu yang bermanfaat adalah cahaya yang tak pernah padam.”"
+  },
+  {
+    gambar: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=1920&h=1080&fit=crop",
+    num: "03",
+    label: "Menjadikan <em>Al-Qur'an dan Hadis</em> sebagai landasan berpikir dan bertindak.",
+    quote: "“Al-Qur'an adalah kompas abadi yang menuntun langkah kami.”"
+  },
+  {
+    gambar: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=1080&fit=crop",
+    num: "04",
+    label: "Mendorong <em>kreativitas dan pembaruan</em> dalam pendidikan dan pengabdian.",
+    quote: "“Inovasi adalah cara kami menjawab tantangan zaman.”"
+  },
+  {
+    gambar: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1920&h=1080&fit=crop",
+    num: "05",
+    label: "Mengedepankan <em>kebermanfaatan dan keadilan sosial</em> bagi masyarakat luas.",
+    quote: "“Kepedulian sosial adalah ibadah yang paling dekat.”"
+  },
+  {
+    gambar: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1920&h=1080&fit=crop",
+    num: "06",
+    label: "Mengembangkan <em>kerja sama</em> untuk dampak yang berkelanjutan.",
+    quote: "“Kolaborasi adalah kekuatan yang tak tergantikan.”"
+  }
+];
+
+const totalSlides = slides.length;
+---
+
+<section
+  id="hero"
+  class="hero relative w-full overflow-hidden bg-brand-primary text-brand-background"
+  aria-roledescription="carousel"
+>
+  <!-- Track (semua slide disusun flex) -->
+  <div class="hero-track" id="heroTrack">
+    {
+      slides.map((slide) => (
+        <div
+          class="hero-slide min-w-full h-full shrink-0 relative flex items-center"
+          role="group"
+          aria-roledescription="slide"
+        >
+          <div
+            class="hero-img absolute inset-0 bg-cover bg-center"
+            style={`background-image: url('${slide.gambar}');`}
+          ></div>
+          <div class="hero-overlay absolute inset-0 pointer-events-none"></div>
+
+          <div class="hero-content relative z-2 w-full">
+            <div>
+              <div class="hero-num">{slide.num}</div>
+              <div class="hero-tag">Nilai Utama</div>
+              <h1 class="hero-headline" set:html={slide.label}></h1>
+            </div>
+
+            <div class="hero-side">
+              <p class="hero-side-quote">{slide.quote}</p>
+              <p class="hero-side-attr">— Yayasan Sawiyan</p>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Bottom progress bar -->
+  <div class="hero-bottom">
+    <span class="hero-counter" id="heroCounter">01 / 06</span>
+    <div class="hero-progress" id="heroProgress"></div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    height: 88vh;
+    min-height: 640px;
+    overflow: hidden;
+  }
+
+  /* Track & Slide */
+  .hero-track {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .hero-slide {
+    min-width: 100%;
+    height: 100%;
+  }
+
+  .hero-img {
+    filter: saturate(0.7) brightness(0.7);
+  }
+
+  /* Overlay gradasi */
+  .hero-overlay {
+    background: linear-gradient(135deg,
+      rgba(74, 93, 63, 0.85) 0%,
+      rgba(42, 46, 37, 0.65) 100%);
+  }
+
+  /* Konten utama dalam slide */
+  .hero-content {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  /* Angka besar (01, 02, dst) */
+  .hero-num {
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    font-style: italic;
+    font-size: clamp(80px, 12vw, 160px);
+    font-weight: 300;
+    line-height: 1;
+    opacity: 0.4;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
+  }
+
+  /* Tag kecil di atas judul */
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary-lighter);
+    margin-bottom: 20px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--color-primary-lighter);
+  }
+
+  /* Headline utama */
+  .hero-headline {
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    font-weight: 400;
+    font-size: clamp(36px, 4.5vw, 60px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 18ch;
+    margin: 0;
+  }
+
+  .hero-headline :global(em) {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--color-primary-lighter);
+  }
+
+  /* Side quote column */
+  .hero-side {
+    border-left: 1px solid rgba(247, 242, 231, 0.25);
+    padding-left: 32px;
+  }
+
+  .hero-side-quote {
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.5;
+    color: rgba(247, 242, 231, 0.85);
+    max-width: 28ch;
+    margin: 0 0 20px 0;
+  }
+
+  .hero-side-attr {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary-lighter);
+    margin: 0;
+  }
+
+  /* Bottom progress bar */
+  .hero-bottom {
+    position: absolute;
+    bottom: 32px;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .hero-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--color-primary-lighter);
+    letter-spacing: 0.05em;
+  }
+
+  .hero-progress {
+    flex: 1;
+    display: flex;
+    gap: 6px;
+  }
+
+  .hero-progress div {
+    flex: 1;
+    height: 2px;
+    background: rgba(247, 242, 231, 0.2);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .hero-progress div.active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-primary-lighter);
+    animation: heroProgress 6s linear forwards;
+  }
+
+  @keyframes heroProgress {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .hero-side {
+      border-left: none;
+      border-top: 1px solid rgba(247, 242, 231, 0.25);
+      padding-left: 0;
+      padding-top: 24px;
+    }
+  }
+</style>
+
+<script define:vars={{ totalSlides }}>
+  (function () {
+    const track = document.getElementById('heroTrack');
+    const hero  = document.getElementById('hero');
+    const progress = document.getElementById('heroProgress');
+    const counter  = document.getElementById('heroCounter');
+    if (!track || !progress || !counter || !hero) return;
+
+    const slides = track.querySelectorAll('.hero-slide');
+    const total  = slides.length || totalSlides;
+
+    // Build progress bars
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      if (i === 0) d.classList.add('active');
+      progress.appendChild(d);
+    }
+
+    let current = 0;
+    let timer   = null;
+
+    const go = (n) => {
+      current = (n + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+      Array.from(progress.children).forEach((el, idx) => {
+        el.classList.toggle('active', idx === current);
+      });
+    };
+
+    const start = () => {
+      stop();
+      timer = window.setInterval(() => go(current + 1), 6000);
+    };
+
+    const stop = () => {
+      if (timer !== null) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    hero.addEventListener('mouseenter', stop);
+    hero.addEventListener('mouseleave', start);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    start();
+  })();
+</script>

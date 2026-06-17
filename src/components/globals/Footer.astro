@@ -1,0 +1,267 @@
+---
+import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, Youtube } from "lucide-astro";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <!-- Brand Section -->
+      <div>
+        <div class="footer-brand">Sawiyan</div>
+        <div class="footer-brand-sub">Yayasan · Sejak 2014</div>
+        <p class="footer-tag">Yayasan Sawiyan bergerak di bidang sosial, kemanusiaan, dan keagamaan — bersama membangun kebaikan untuk sesama.</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4>Tentang</h4>
+        <ul>
+          <li><a href="/profile">Profil Yayasan</a></li>
+          <li><a href="/program">Visi &amp; Misi</a></li>
+          <li><a href="/berita">Struktur</a></li>
+        </ul>
+      </div>
+
+      <!-- Program -->
+      <div class="footer-col">
+        <h4>Program</h4>
+        <ul>
+          <li><a href="/program#sosial">Sosial</a></li>
+          <li><a href="/program#kemanusiaan">Kemanusiaan</a></li>
+          <li><a href="/program#keagamaan">Keagamaan</a></li>
+        </ul>
+      </div>
+
+      <!-- Kontak -->
+      <div class="footer-col">
+        <h4>Hubungi</h4>
+        <ul class="footer-contact">
+          <li class="flex items-start gap-2">
+            <MapPin class="w-4 h-4 mt-1 flex-shrink-0" />
+            <span>Jl. Contoh No. 123<br />Kota Anda, Provinsi</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <Phone class="w-4 h-4 flex-shrink-0" />
+            <a href="tel:+6251112345678">(0511) 1234 5678</a>
+          </li>
+          <li class="flex items-center gap-2">
+            <Mail class="w-4 h-4 flex-shrink-0" />
+            <a href="mailto:info@yayasansawiyan.org">info@yayasansawiyan.org</a>
+          </li>
+          <li class="flex items-center gap-2">
+            <Clock class="w-4 h-4 flex-shrink-0" />
+            <span>Senin - Jumat<br />08:00 - 16:00 WITA</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Social Media -->
+    <div class="footer-social">
+      <div class="footer-social-row">
+        <div class="flex items-center gap-2">
+          <span class="footer-social-label">Ikuti Kami:</span>
+        </div>
+        <div class="flex gap-3">
+          <a href="#" class="footer-social-icon" aria-label="Facebook">
+            <Facebook class="w-5 h-5" />
+          </a>
+          <a href="#" class="footer-social-icon" aria-label="Instagram">
+            <Instagram class="w-5 h-5" />
+          </a>
+          <a href="#" class="footer-social-icon" aria-label="Twitter">
+            <Twitter class="w-5 h-5" />
+          </a>
+          <a href="#" class="footer-social-icon" aria-label="YouTube">
+            <Youtube class="w-5 h-5" />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+      <p class="footer-copyright">
+        Sawiyan ©{currentYear}. All rights reserved.
+      </p>
+      <div class="footer-legal">
+        <a href="#">Kebijakan Privasi</a>
+        <span>|</span>
+        <a href="#">Syarat &amp; Ketentuan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-primary);
+    color: var(--color-background);
+    padding: 96px 32px 32px;
+    position: relative;
+  }
+
+  .footer-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 64px;
+    padding-bottom: 64px;
+    border-bottom: 1px solid rgba(164, 178, 147, 0.2);
+  }
+
+  .footer-brand {
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .footer-brand-sub {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary-lighter);
+    margin-bottom: 20px;
+  }
+
+  .footer-tag {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(247, 242, 231, 0.75);
+    max-width: 36ch;
+    margin: 0;
+  }
+
+  .footer-col h4 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary-lighter);
+    margin: 0 0 24px 0;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-col li {
+    margin-bottom: 12px;
+  }
+
+  .footer-col a {
+    font-size: 14px;
+    color: rgba(247, 242, 231, 0.8);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover {
+    color: var(--color-background);
+  }
+
+  .footer-contact li {
+    font-size: 14px;
+    color: rgba(247, 242, 231, 0.8);
+  }
+
+  .footer-contact a {
+    color: rgba(247, 242, 231, 0.8);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-contact a:hover {
+    color: var(--color-primary-lighter);
+  }
+
+  /* Social */
+  .footer-social {
+    padding: 32px 0;
+    border-bottom: 1px solid rgba(164, 178, 147, 0.2);
+  }
+
+  .footer-social-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-social-label {
+    font-size: 12px;
+    color: rgba(247, 242, 231, 0.6);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .footer-social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(247, 242, 231, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-background);
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .footer-social-icon:hover {
+    background: var(--color-primary-lighter);
+    color: var(--color-primary-darker);
+    transform: scale(1.05);
+  }
+
+  /* Bottom */
+  .footer-bottom {
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(247, 242, 231, 0.5);
+  }
+
+  .footer-copyright {
+    margin: 0;
+  }
+
+  .footer-legal {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .footer-legal a {
+    color: rgba(247, 242, 231, 0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-legal a:hover {
+    color: var(--color-primary-lighter);
+  }
+
+  @media (max-width: 960px) {
+    .footer-top {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-social-row,
+    .footer-bottom {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+</style>

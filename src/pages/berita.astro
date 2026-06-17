@@ -1,0 +1,95 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HeroWithSidebar from "../components/pages/berita/HeroWithSidebar.astro";
+import LatestBeritaCarousel from "../components/pages/berita/LatestBeritaCarousel.astro";
+
+interface BeritaItem {
+  slug: string;
+  category: string;
+  judul: string;
+  thumbnail: string;
+  excerpt: string;
+  date_created: string;
+  author: string;
+}
+
+const allBeritaData: BeritaItem[] = [
+  {
+    slug: "program-beasiswa-2025",
+    category: "Pengumuman",
+    judul: "Program Beasiswa Yayasan Sawiyan 2025",
+    thumbnail: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&h=1080&fit=crop",
+    excerpt: "Yayasan Sawiyan membuka program beasiswa untuk siswa berprestasi dan keluarga kurang mampu. Program ini bertujuan untuk memberikan kesempatan pendidikan yang lebih baik bagi generasi penerus bangsa.",
+    date_created: "2024-11-15T10:00:00",
+    author: "Admin Yayasan",
+  },
+  {
+    slug: "bantuan-kemanusiaan-2025",
+    category: "Berita",
+    judul: "Kegiatan Bantuan Kemanusiaan di Daerah Terdampak Bencana",
+    thumbnail: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop",
+    excerpt: "Yayasan Sawiyan menggelar program bantuan kemanusiaan untuk korban bencana alam. Bantuan meliputi bahan makanan, pakaian, dan kebutuhan pokok lainnya.",
+    date_created: "2024-11-10T14:30:00",
+    author: "Tim Kemanusiaan",
+  },
+  {
+    slug: "kegiatan-keagamaan-2025",
+    category: "Kegiatan",
+    judul: "Kegiatan Rutin Kajian Keagamaan Bulanan",
+    thumbnail: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&h=600&fit=crop",
+    excerpt: "Yayasan Sawiyan mengadakan kajian keagamaan rutin setiap bulan yang terbuka untuk umum. Kegiatan ini bertujuan untuk memperdalam pemahaman keagamaan.",
+    date_created: "2024-11-08T09:15:00",
+    author: "Divisi Keagamaan",
+  },
+  {
+    slug: "kampanye-lingkungan-2025",
+    category: "Kegiatan",
+    judul: "Kampanye Peduli Lingkungan: Aksi Bersih-Bersih",
+    thumbnail: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=800&h=600&fit=crop",
+    excerpt: "Yayasan Sawiyan menggelar aksi bersih-bersih lingkungan sebagai bentuk kepedulian terhadap kelestarian alam.",
+    date_created: "2024-11-05T16:45:00",
+    author: "Tim Lingkungan",
+  },
+  {
+    slug: "penyaluran-zakat-2025",
+    category: "Pengumuman",
+    judul: "Penyaluran Zakat Fitrah dan Zakat Mal Tahun 2025",
+    thumbnail: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&h=600&fit=crop",
+    excerpt: "Yayasan Sawiyan membuka penyaluran zakat fitrah dan zakat mal untuk disalurkan kepada mustahik yang berhak.",
+    date_created: "2024-11-01T11:20:00",
+    author: "Divisi Keagamaan",
+  },
+  {
+    slug: "pelatihan-keterampilan-2025",
+    category: "Berita",
+    judul: "Pelatihan Keterampilan untuk Pemberdayaan Masyarakat",
+    thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop",
+    excerpt: "Program pelatihan keterampilan bagi masyarakat untuk meningkatkan kemampuan dan peluang ekonomi.",
+    date_created: "2024-10-28T13:00:00",
+    author: "Divisi Program Sosial",
+  },
+];
+
+// Hero berita (first item)
+const heroBerita = allBeritaData[1];
+
+// Sidebar berita (items 1-5 for sidebar)
+const sidebarBerita = allBeritaData.slice(1, 6);
+
+// Latest berita for carousel (all items, sorted by date)
+const latestBerita = [...allBeritaData].sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime());
+---
+
+<Layout title="Berita">
+  <section class="bg-gradient-to-br from-brand-background via-brand-surface to-brand-background py-8 lg:py-16 overflow-hidden relative">
+    <div class="container mx-auto px-6 md:px-8 max-w-7xl relative z-10 mt-10">
+      <div class="flex flex-col gap-16">
+        {/* Hero Section with Sidebar */}
+        <HeroWithSidebar heroBerita={heroBerita} sidebarBerita={sidebarBerita} />
+
+        {/* Latest berita Carousel */}
+        <LatestBeritaCarousel latestBerita={latestBerita} />
+      </div>
+    </div>
+  </section>
+</Layout>
