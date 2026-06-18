@@ -28,6 +28,7 @@ pnpm-debug.log*
 
 # pi code
 design-demos/
+docs/
 
 # Local Netlify folder
 .netlify
